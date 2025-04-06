@@ -24,7 +24,7 @@ Este es un proyecto backend desarrollado con [FastAPI](https://fastapi.tiangolo.
 - Uvicorn
 - Firestore (Firebase)
 - Pydantic
-- python-dotenv
+
 
 ---
 
@@ -32,6 +32,16 @@ Este es un proyecto backend desarrollado con [FastAPI](https://fastapi.tiangolo.
 
 1. Clona el repositorio
 
-```bash
-git clone https://github.com/tu_usuario/fastapi-crud.git
-cd fastapi-crud
+2. Crea un entorno virtual
+
+python -m venv .venv
+
+3. Activa el entorno virtual
+
+.venv\Scripts\Activate.ps1
+
+4. instala dependencias
+
+pip install -r requirements.txt
+
+
