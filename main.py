@@ -12,14 +12,9 @@ load_dotenv()
 
 # Leer la ruta del archivo JSON desde el entorno
 firebase_key_path = os.getenv("FIREBASE_KEY_PATH")
-
 # Crear credenciales
 credentials = service_account.Credentials.from_service_account_file(firebase_key_path)
-
-
-
 app = FastAPI()
-
 db = firestore.Client(credentials=credentials)
 
 
@@ -38,7 +33,7 @@ class ItemUpdate(BaseModel):
 @app.post("/items/")
 def create_item(item: Item):
     doc_ref = db.collection("items").document()
-    doc_ref.set(item.dict())
+    doc_ref.set(item.model_dump())
     return {"id": doc_ref.id, "item": item}
 
 # Obtener todos los items
@@ -62,7 +57,7 @@ def update_item(item_id: str, updated_item: Item):
     doc_ref = db.collection("items").document(item_id)
     if not doc_ref.get().exists:
         raise HTTPException(status_code=404, detail="Item no encontrado")
-    doc_ref.set(updated_item.dict())
+    doc_ref.set(updated_item.model_dump())
     return {"id": item_id, "item": updated_item}
 
 # Eliminar un item
@@ -87,6 +82,6 @@ def patch_item(item_id: str, item_update: ItemUpdate):
     doc = doc_ref.get()
     if not doc.exists:
         raise HTTPException(status_code=404, detail="Item no encontrado")
-    updated_data = item_update.dict(exclude_unset=True)
+    updated_data = item_update.model_dump(exclude_unset=True)
     doc_ref.update(updated_data)
     return {"id": item_id, "actualizado": updated_data}
